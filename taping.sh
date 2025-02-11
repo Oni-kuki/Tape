@@ -123,8 +123,8 @@ version_to_install() {
             export PATH=$PATH:/usr/local/go/bin
             export GOROOT_BOOTSTRAP=$GOROOT
             export PATH="$PATH:$(go env GOPATH)/bin"
-            #make pb
-            #make 
+            make pb
+            make 
         else
             echo "Aborted ... Please modify the script and try again."
             exit 1
