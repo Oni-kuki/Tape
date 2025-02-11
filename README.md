@@ -33,6 +33,11 @@ And for Havoc, if you didn't know—now you know.
 
 ## Scotch.py  
 This script can be used independently of this repo, (if you have read the [Taping.sh](https://github.com/Oni-kuki/Tape/blob/main/taping.sh) you'll notice some redundancy in the obfuscation techniques.)  
+
+```
+python3 scotch.py FILE
+```
+
 > [!CAUTION] 
 > Depending on your listener, not every obfuscation technique can be applied. By default, the obfuscation is set for an mTLS listener.   
 > So again Read the script
