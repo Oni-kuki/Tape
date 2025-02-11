@@ -47,9 +47,9 @@ You can make it manually with ghidra for the moment, I will automated in a few d
 
 ## Some Recomendations
 > [!NOTE]
-> Build the 1.5 version 
-> Next to this build the 1.6 version
-> Add the sliver-server binary of 1.6 to the 1.5,like external builder and use it for every implant generation
+> Build the 1.5 version   
+> Next to this build the 1.6 version  
+> Add the sliver-server binary of 1.6 to the 1.5 server, like external builder and use it for every implant generation  
 
 ### Why did I make this ? 
 Because the Donut loader in version 1.6 doesn't allow the execute-assembly method to work correctly.
