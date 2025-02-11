@@ -9,7 +9,7 @@ This technique looks a bit like this ...
 ## In Labs - GOAD with Wazuh Activated    
 1. Yes, I know that just tweaking some settings in Havoc allows the demon.bin to be executed on GOAD (on Socfortress rules machines) without issues. But in this case, my goal was to achieve the same thing manually with [Sliver](https://github.com/BishopFox/sliver), which allowed me to learn much more about this C2.
 And for Havoc, if you didn't know—now you know.    
-2. In this case, we will bypass and obfuscate our payload with minimal effort. (If my calculations are correct: Socfortress—out, ELK rules—out, Wazuh YARA rules—out. I’m not considering Defender in my equation because some built-in bypasses in the implant can still be flagged, even in this case.)  
+2. In this case, we will bypass and obfuscate our payload with minimal effort. (If my calculations are correct: Socfortress—out, ELK multi sliver rules—out, Wazuh sliver YARA rules—out. I’m not considering Defender in my equation because some built-in bypasses in the implant can still be flagged, even in this case.)  
 
 ## Taping.sh
 1. Fork [Sliver](https://github.com/BishopFox/sliver) to your own repository.  
