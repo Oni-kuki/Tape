@@ -48,7 +48,12 @@ generate -m HOST_IP:PORT -G --skip-symbols -f shellcode -s ./FOLDER/TO/SAVE
 ```
 ## Last but not Least  
 I don't have automated one particular obfuscation (wireguard strings because it's still a bit tricky)  
-You can make it manually with ghidra for the moment, I will automated in a few days.
+You can make it manually with ghidra for the moment, I will automated in a few days.  
+the hex to change is based on this rule part :
+```
+$p1 = {66 81 ?? 77 67}
+```
+Use the yara rule to identify correctly the Hex part; it's more precise.  
 
 ## Some Recomendations
 > [!NOTE]
