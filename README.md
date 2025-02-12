@@ -1,5 +1,5 @@
 # Tape
-Scotch-Tape usage for [Sliver](https://github.com/BishopFox/sliver) obfsucation  
+Scotch-Tape usage for [Sliver](https://github.com/BishopFox/sliver) obfuscation  
 This technique looks a bit like this ...
 <p align="center">
   <img src="./image/jim-carrey-tape.gif" alt="jimmy-jim width="290" height="290" />
