@@ -11,7 +11,14 @@ This technique looks a bit like this ...
 And for Havoc, if you didn't know—now you know.    
 2. In this case, we will bypass and obfuscate our payload with minimal effort. (If my calculations are correct: Socfortress—out, ELK multi sliver rules—out, Wazuh sliver YARA rules—out. I’m not considering Defender in my equation because some built-in bypasses in the implant can still be flagged, even in this case.)  
 
-## Taping.sh
+## Taping.sh  
+
+### Prerequisite for GVM - only v1.5 version of sliver
+```bash
+bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+source . /root/.gvm/scripts/gvm
+```
+
 1. Clone [Sliver](https://github.com/BishopFox/sliver) repository and this repo [Tape](https://github.com/Oni-kuki/Tape)  
 ```taping.sh
 git clone https://github.com/BishopFox/sliver.git
@@ -34,8 +41,8 @@ var3=XXXXX #replacement of Sliver
 4. Execute [Taping.sh](https://github.com/Oni-kuki/Tape/blob/main/taping.sh)
 ```taping.sh
 # in this example, but you can specify the folder where sliver is located depending on your clone 
-./taping.sh version 1.5 ../sliver/
-./taping.sh version 1.6 ../sliver/
+sudo ./taping.sh version 1.5 ../sliver/
+sudo ./taping.sh version 1.6 ../sliver/
 ```  
 
 ### Some explanation and OPSEC Recomendations
@@ -47,8 +54,8 @@ var3=XXXXX #replacement of Sliver
 
 ```taping.sh
 # in this example, but you can specify the folder where sliver is located depending on your clone
-./taping.sh version 1.5 ../sliver --ext
-./taping.sh version 1.6 ../sliver --ext
+sudo ./taping.sh version 1.5 ../sliver/ --ext
+sudo ./taping.sh version 1.6 ../sliver/ --ext
 ```
 
 #### Why did I make this ? 

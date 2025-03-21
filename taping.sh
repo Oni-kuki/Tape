@@ -7,7 +7,7 @@ latest_stable_version=v1.5.43
 
 prerequisite () {
     sudo apt-get update -y
-    sudo apt-get install -y curl unzip wget git make build-essential libpcap-dev bsdmainutils uname sed git zip date cut golang-go
+    sudo apt-get install -y curl unzip wget git make build-essential libpcap-dev bsdmainutils coreutils sed git zip golang-go
     # uncomment for build windows server and client compilation
     # sudo apt install g++-mingw-w64 gcc-mingw-w64
 }
@@ -32,12 +32,38 @@ check_gvm_installed () {
     if ! command -v gvm &> /dev/null; then
         echo "gvm not installed...we will try to install it..."
         bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-        source /root/.gvm/scripts/gvm
+        . /root/.gvm/scripts/gvm
     else
         echo "gvm installed."
     fi
 }
 
+create_service () {
+    echo "create service..."
+    # create service
+    cat > /etc/systemd/system/${var2}.service <<-EOF
+    [Unit]
+    Description=${var2}
+    After=network.target
+    StartLimitIntervalSec=0
+    
+    [Service]
+    Type=simple
+    Restart=on-failure
+    RestartSec=3
+    User=root
+    ExecStart=$PWD/${var2}-server daemon
+
+    [Install]
+    WantedBy=multi-user.target
+EOF
+
+    systemctl daemon-reload
+    systemctl enable ${var2}.service
+    systemctl start ${var2}.service
+    echo "now you can create the operator configuration with something like this :"
+    echo ".$PWD/${var2}-server operator --name USER --lhost server-IP --save ./"
+}
 
 personal_forking() {
     echo "personal forking.. that's allowed to obfuscate some strings more easily"
@@ -131,6 +157,7 @@ version_to_install() {
         if [[ "$choice" == "yes" ]]; then
             echo "Ok, so let's continue..."
             echo "that's take while..."
+            prerequisite
             personal_forking
             keep_armory
             check_protobuf_installed
@@ -161,7 +188,7 @@ version_to_install() {
                     sudo apt-get install bison -y
                     check_gvm_installed
                     gvm install go1.20.7
-                    source /root/.gvm/scripts/gvm
+                    . /root/.gvm/scripts/gvm
                     gvm use go1.20.7
                     go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1
                     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2.0
@@ -172,7 +199,13 @@ version_to_install() {
         
         build_C2
         unset -f cd         
-        
+            read -p "WARNING: Do you want create the daemon service for your ${var2}-server ?  (yes/no): " choice
+            if [[ "$choice" == "yes" ]]; then
+                create_service
+            else
+                echo "service not created"
+                exit 1
+            fi
         else
             echo "Aborted ... Please modify the script and try again."
             exit 1
