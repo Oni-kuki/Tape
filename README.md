@@ -26,7 +26,7 @@ git clone https://github.com/Oni-kuki/Tape
 ```
 * If you want the latest stable version of sliver (v1.5.43) go in sliver repo and make
 ```
-git checkout v.1.5.43
+git checkout v1.5.43
 ``` 
 2. Go in [Tape](https://github.com/Oni-kuki/Tape) repo 
 ```taping.sh
