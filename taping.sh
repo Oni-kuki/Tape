@@ -62,7 +62,7 @@ EOF
     systemctl enable ${var2}.service
     systemctl start ${var2}.service
     echo "now you can create the operator configuration with something like this :"
-    echo ".$PWD/${var2}-server operator --name USER --lhost server-IP --save ./"
+    echo -e "\e[32m$PWD/${var2}-server operator --name USER --lhost server-IP --save ./\e[0m"
 }
 
 personal_forking() {
