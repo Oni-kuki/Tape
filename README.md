@@ -12,20 +12,50 @@ And for Havoc, if you didn't know—now you know.
 2. In this case, we will bypass and obfuscate our payload with minimal effort. (If my calculations are correct: Socfortress—out, ELK multi sliver rules—out, Wazuh sliver YARA rules—out. I’m not considering Defender in my equation because some built-in bypasses in the implant can still be flagged, even in this case.)  
 
 ## Taping.sh
-1. Fork [Sliver](https://github.com/BishopFox/sliver) to your own repository.  
-2. Clone the repo on your server.  
-3. Place this [Tape](https://github.com/Oni-kuki/Tape) repo in front of your forked [Sliver](https://github.com/BishopFox/sliver) repo (on your server, of course)
+1. Clone [Sliver](https://github.com/BishopFox/sliver) repository and this repo [Tape](https://github.com/Oni-kuki/Tape)  
+```taping.sh
+git clone https://github.com/BishopFox/sliver.git
+git clone https://github.com/Oni-kuki/Tape
+```
+* If you want the latest stable version of sliver (v1.5.43) go in sliver repo and make
+```
+git checkout v.1.5.43
+``` 
+2. Go in [Tape](https://github.com/Oni-kuki/Tape) repo 
+```taping.sh
+cd Tape
+``` 
+3. Modify first variables on the [Taping.sh](https://github.com/Oni-kuki/Tape/blob/main/taping.sh) script (no space, no problematic special character)  
+```taping.sh
+var1=XXXXX #replacement of bishopfox
+var2=XXXXX #replacement of sliver
+var3=XXXXX #replacement of Sliver 
+```
 4. Execute [Taping.sh](https://github.com/Oni-kuki/Tape/blob/main/taping.sh)
+```taping.sh
+# in this example, but you can specify the folder where sliver is located depending on your clone 
+./taping.sh version 1.5 ../sliver/
+./taping.sh version 1.6 ../sliver/
+```  
 
+### Some explanation and OPSEC Recomendations
 > [!NOTE]  
 > Version 1.5 or 1.6 are reference to [Sliver](https://github.com/BishopFox/sliver) version
-> 1.6 is still in development so use it with caution (do not use it in production).  
-> I have a better solution if you want to use the latest version because Donut-based payloads in 1.6 are not flagged as much yet.   
+> 1.6 is still in development so use it with caution (do not use it in production).   
+> I add some new features to make easier the external building, now with --ext argument we can build external-builder with 1.6 donut-loader wich are more OPSEC for implant and build the server with the 1.5 donut-loader wich are more OPSEC for the execute-assembly function.  
+> So at the end we will have 3 binaries external-server (just for implant creation), client, and the server.  
 
 ```taping.sh
-./taping.sh version 1.5 FOLDER/
-./taping.sh version 1.6 FOLDER/
+# in this example, but you can specify the folder where sliver is located depending on your clone
+./taping.sh version 1.5 ../sliver --ext
+./taping.sh version 1.6 ../sliver --ext
 ```
+
+#### Why did I make this ? 
+Because the Donut loader in version 1.6 doesn't allow the execute-assembly method to work correctly.
+I tested a lot of things to understand why, and I isolated the fact that the loader cannot retrieve the output. This might be linked to the AMSI patch (the bypasses are applied in two ways: one for Donut itself, (for implant) and the other in the loader for execute-assembly). However, I haven't delved too deeply into the subject yet.  
+
+Regardless, version 1.6 is quieter for the implant, while version 1.5 works better for execute-assembly. In any case, version 1.5 is more stable and production-ready.  
 
 > [!CAUTION]  
 > This takes a while, so be patient  
@@ -54,15 +84,3 @@ the hex to change is based on this rule part :
 $p1 = {66 81 ?? 77 67}
 ```
 Use the yara rule to identify correctly the Hex part; it's more precise.  
-
-## Some Recomendations
-> [!NOTE]
-> Build the 1.5 version   
-> Next to this build the 1.6 version  
-> Add the sliver-server binary of 1.6 to the 1.5 server, like external builder and use it for every implant generation  
-
-### Why did I make this ? 
-Because the Donut loader in version 1.6 doesn't allow the execute-assembly method to work correctly.
-I tested a lot of things to understand why, and I isolated the fact that the loader cannot retrieve the output. This might be linked to the AMSI patch (the bypasses are applied in two ways: one for Donut itself, (for implant) and the other in the loader for execute-assembly). However, I haven't delved too deeply into the subject yet.  
-
-Regardless, version 1.6 is quieter for the implant, while version 1.5 works better for execute-assembly. In any case, version 1.5 is more stable and production-ready.  
